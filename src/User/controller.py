@@ -13,7 +13,8 @@ userController = Blueprint('user', __name__, url_prefix='/auth')
 def registerUser():
     data = request.get_json()
     try:
-        user = AuthUser(data['username'], data['password'], data['email'])
+        print(data)
+        user = AuthUser(username= data['username'], email = data['email'], password = data['password'])
         db.session.add(user)
         db.session.commit()
     except Exception as err:
@@ -36,8 +37,7 @@ def loginUser():
 
 @userController.route('/rand')
 @loginRequired
-def rand(**kwargs):
-    user = kwargs['user']
+def rand(user):
     response = make_response({'username': user.username, 'email': user.email}, 200)
     print(request)
     return response

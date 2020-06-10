@@ -15,6 +15,6 @@ def loginRequired(func):
             data = jwt.decode_token(token)
             user = AuthUser.query.filter_by(username=data['user']).first()
             if(user):
-                return func(user=user)
+                return func(*args, **kwargs, user=user)
         return response
     return wrapper
